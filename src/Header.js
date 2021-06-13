@@ -2,7 +2,7 @@ import logo from './logo192.png';
 
 function Header() {
   return (
-    <header className="header">
+    <header className="page-header">
       <div className="side-menu">
         <img src={logo} className="avatar" alt="avatar"></img>
         <ul className="menu-bar">
