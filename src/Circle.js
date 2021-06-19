@@ -46,7 +46,7 @@ class Circle extends Component {
     this.setState({
       currentNumber: this.props.number
     });
-    this.tongleCountDown();
+    // this.tongleCountDown();
   }
 
   componentDidUpdate() {
@@ -68,10 +68,10 @@ class Circle extends Component {
     };
     return (
       <div className='circle-group'>
-        <button className='tongle-btn' onClick={this.tongleCountDown}>{!isStart ? 'Start' : 'Stop'}</button>
+        {/* <button className='tongle-btn' onClick={this.tongleCountDown}>{!isStart ? 'Start' : 'Stop'}</button>
         <div style={styles}>
           <p className='number'>{currentNumber}</p>
-        </div>
+        </div> */}
       </div>
     );
   }
