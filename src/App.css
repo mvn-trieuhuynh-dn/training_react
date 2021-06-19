@@ -44,7 +44,7 @@ li a {
   max-width: 40px;
 }
 
-.header {
+.page-header, .circles{
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -58,6 +58,11 @@ li a {
   padding: 0 5px;
 }
 
-.main {
+.page-main {
   min-height: 670px;
+}
+
+.number {
+  padding: 50% 0;
+  margin: 0;
 }
