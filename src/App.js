@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Circle from './Circle';
+import UserRow from './UserRow';
 import Footer from './Footer';
 import Header from './Header';
 
@@ -8,69 +8,101 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 'home',
-      itemList: [
-        {
-          id: 1,
-          color: 'red',
-          des: 'this is desription'
-        },
-        {
-          id: 2,
-          color: 'green',
-          des: 'this is desription'
-        },
-        {
-          id: 3,
-          color: 'yellow',
-          des: 'this is desription'
-        },
-        {
-          id: 4,
-          color: 'blue',
-          des: 'this is desription'
-        },
-        {
-          id: 5,
-          color: 'orange',
-          des: 'this is desription'
-        },
-      ]
+      form: {
+        email: '',
+        password: '',
+        country: '',
+        gender: '0',
+        other: ''
+      },
+      userList: []
     };
-    // this.toggleColor = this.toggleColor.bind(this);
+    this.id = 0;
   }
 
-  removeItem(index) {
-    var { itemList }  = this.state;
-    itemList.splice(index, 1);
-    this.setState({
-      itemList
-    });
+  removeItem = (id) => {
+    this.setState(prev => ({
+      userList: prev.userList.filter(item => item.id != id)
+    }));
   }
-  handleChangePage(page) {
-    console.log(page);
-    this.setState({
-      page
-    });
+
+  handleChange = (e) => {
+    const value = e.target.value;
+    const name = e.target.name;
+    this.setState( prev => ({
+      form: {...prev.form, [name]: value}
+    }));
+  }
+
+  HandleSubmit = (event) => {
+    event.preventDefault();
+    this.setState( prev => ({
+      userList: [...prev.userList, {...prev.form, id: ++this.id}]
+    }));
   }
 
   render() {
-    const { itemList }  = this.state;
+    const { form, userList }  = this.state;
     return (
       <div className="App">
         <Header />
         <main className="page-main">
-          {itemList.length ?
-            <ul className='circles'>
-              {itemList.map((i, index) => 
-                <li style={{backgroundColor: i.color}} className="circle"><Circle size={50} number={1} />
-                  <h5>item {i.id}</h5>
-                  <p>{i.des}</p>
-                  <button onClick={() => this.removeItem(index)}>X</button>
-                </li>
-              )}
-            </ul>
-          : <p> U have no item !</p>}
+          <form className="resgister-form" onSubmit={this.HandleSubmit}>
+            <h2 className="text-uppercase">Register User </h2>
+            <div className="form-group">
+              <label className="form-label">Email address</label>
+              <input type="text" name="email" className="form-control" onChange={this.handleChange} />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Password</label>
+              <input type="password" name="password" className="form-control" onChange={this.handleChange} />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Your country</label>
+              <div className="form-select">
+                <select name="country" value={form.country} onChange={this.handleChange}>
+                  <option value="">Please choose your country</option>
+                  <option value="Vietnam">Viet Nam</option>
+                  <option value="Lao">Laos Cai</option>
+                  <option value="USA">USA Tho</option>
+                </select>
+              </div>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Gender</label>
+              <div className="form-radio">
+                <input type="radio" name="gender" id="male" value="0" checked={form.gender === '0'} onChange={this.handleChange} />
+                <label htmlFor="male">Male</label>
+              </div>
+              <div className="form-radio">
+                <input type="radio" name="gender" id="female" value="1" checked={form.gender === '1'} onChange={this.handleChange} />
+                <label htmlFor="female">Female</label>
+              </div>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Other information</label>
+              <textarea name="other" onChange={this.handleChange}></textarea>
+            </div>
+            <div className="form-button">
+              <button className="btn">Submit</button>
+            </div>
+          </form>
+          <table className="list-users table table-bordered">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Country</th>
+                <th>Gender</th>
+                <th>Other information</th>
+                <th className="txt-center">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+            {userList.length ? userList.map((user) =>
+              <UserRow key={user.id} user={user} onRemoveUser={this.removeItem}/>)
+            : <tr><td className="txt-center" colSpan="5">Register new user to see it here</td></tr>}
+            </tbody>
+          </table>
         </main>
         <Footer />
       </div>
