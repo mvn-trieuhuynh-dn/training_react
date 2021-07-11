@@ -1,9 +1,6 @@
 import React from 'react'
 
 const UserRow = (props) => {
-  // constructor(props) {
-  //   super(props);
-  // }
 
   function handleRemove() {
     props.onRemoveUser(props.user.id);
@@ -13,9 +10,9 @@ const UserRow = (props) => {
   return (
     <tr key={user.id}>
       <td>{user.email}</td>
-      <td>{user.country}</td>
-      <td>{user.gender === '0' ? 'Male' : 'Female'}</td>
-      <td>{user.other}</td>
+      <td>{user.first_name}</td>
+      <td>{user.last_name}</td>
+      <img src={user.avatar} />
       <td className="txt-center">
         <button className="btn-transparent" onClick={handleRemove}>X</button>
       </td>
