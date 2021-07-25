@@ -59,7 +59,7 @@ li a {
 }
 
 .page-main {
-  min-height: 670px;
+  min-height: 600px;
 }
 
 .number {
@@ -262,4 +262,7 @@ table th {
 .page-item {
   text-decoration: underline;
   cursor: pointer;
+}
+.active {
+  color: #0f3661;
 }
