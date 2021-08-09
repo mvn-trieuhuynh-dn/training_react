@@ -59,7 +59,7 @@ li a {
 }
 
 .page-main {
-  min-height: 670px;
+  min-height: 600px;
 }
 
 .number {
@@ -249,4 +249,20 @@ table th {
   color: #0F3661;
   font-weight: 400;
   white-space: nowrap;
+}
+
+.page-navigator, .page-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.page-list, .page-item {
+  padding: 0 5px;
+}
+.page-item {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.active {
+  color: #0f3661;
 }
