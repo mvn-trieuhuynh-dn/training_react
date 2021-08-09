@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {Suspense, lazy, useEffect, useState} from "react";
 import {
   BrowserRouter as Router,
   NavLink,
@@ -7,20 +7,26 @@ import {
   Switch,
   useHistory
 } from "react-router-dom";
-import About from "./Features/About";
-import Home from "./Features/Home";
-import Login from "./Features/Login";
-import Products from "./Features/Products";
+import { useSelector } from 'react-redux';
 import useAuth from "./Hooks/useAuth";
 import logo from './logo192.png';
+import Account from "./Features/Account";
+const About = lazy(() => import("./Features/About"));
+const Home = lazy(() => import("./Features/Home"));
+const Login = lazy(() => import("./Features/Login"));
+const Products = lazy(() => import("./Features/Products"));
+const PrivateRoute = lazy(() => import("./Features/PrivateRoute"))
 
 function Header() {
+  // const [user, setUser] = useState('');
+  const curentUser = useSelector((state) => state.curentUser.value)
+  // useEffect(() => {
+  //   setUser(curentUser);
+  // }, [curentUser]);
   const auth = useAuth();
-  const [user, setUser] = useState(auth.user);
   const history = useHistory();
   function handleLogout() {
     auth.logout();
-    setUser('');
     history.push('/login');
   }
   return (
@@ -41,31 +47,37 @@ function Header() {
           </ul>
         </div>
         <ul className="menu-bar">
-          {!user ?
+          {!curentUser ?
             <li className="menu-item">
               <Link to="/login" className="Link">Login</Link>
             </li>
           :
           <li className="menu-item">
+            <span>{curentUser} </span>
             <a onClick={handleLogout} className="Link">Logout</a>
           </li>
           }
         </ul>
       </header>
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route path="/products" exact>
-          <Products />
-        </Route>
-        <Route path="/about" exact>
-          <About />
-        </Route>
-        <Route path="/login" exact>
-          <Login />
-        </Route>
-      </Switch>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/products" exact>
+            <Products />
+          </Route>
+          <Route path="/about" exact>
+            <About />
+          </Route>
+          <Route path="/login" exact>
+            <Login />
+          </Route>
+          <PrivateRoute path="/account" exact>
+            <Account />
+          </PrivateRoute>
+        </Switch>
+      </Suspense>
     </Router>
   );
 }
